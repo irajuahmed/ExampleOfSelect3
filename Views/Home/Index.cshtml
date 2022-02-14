@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/select3.min.css" rel="stylesheet" />
+<link href="~/Content/select3-bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<div class="row">
+    <div class="container">
+        <div class="page-header">
+            <h1>Select3 with pagination</h1>
+            <p>For improved performance with large data sets (500 000 items) within Few Seconds!</p>
+        </div>
+        <input id="test" style="width:100%;" placeholder="Type a number, scroll for more results" /><br />
+        <button id="SetDefaultValue">Set Default Value</button><br />
+        <button id="DisplayValue">Display Value</button>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/lodash.min.js"></script>
+    <script src="~/Scripts/select3.js"></script>
+    <script>
+    (function () {
+
+        $("#SetDefaultValue").click(function () {
+            //$('#test').val([1, 2, 3]).change();
+            //$("#test").val(5).trigger('change');
+            //$("#test").val(["1", "2", "4"]).trigger("change"); //CA doesn't show as a default
+
+
+            $("#test").select3('data',
+                [
+                    { id: "1", text: "Test Data-1" },
+                    { id: "4", text: "Test Data-4" },
+                ]
+            );
+
+
+        });
+        $("#DisplayValue").click(function () {
+            var vdos = $("#test").val();
+            alert(vdos);
+        });
+
+
+        function mockData() {
+            var datalos = '@ViewBag.Data'.replace(/\&quot;/g, '"');
+            console.log(datalos);
+            return JSON.parse(datalos);
+        }
+
+        // init select 3
+        $('#test').select3({
+            data: mockData(),
+            placeholder: 'search',
+            multiple: true,
+            tags: true,
+            // query with pagination
+            query: function (q) {
+                debugger;
+                var pageSize,
+                    results,
+                    that = this;
+                pageSize = 20; // or whatever pagesize
+                results = [];
+                if (q.term && q.term !== '') {
+
+                    // HEADS UP; for the _.filter function i use underscore (actually lo-dash) here
+                    results = _.filter(that.data, function (e) {
+                        return e.text.toUpperCase().indexOf(q.term.toUpperCase()) >= 0;
+                    });
+                } else if (q.term === '') {
+                    debugger;
+                    results = that.data;
+                }
+                q.callback({
+
+                    results: results.slice((q.page - 1) * pageSize, q.page * pageSize),
+                    more: results.length >= q.page * pageSize,
+                });
+            },
+        });
+    })();
+    </script>
+</div>
