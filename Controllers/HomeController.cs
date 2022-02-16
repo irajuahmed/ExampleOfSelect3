@@ -13,11 +13,12 @@ namespace ExampleOfSelect3.Controllers
         {
             var list = new List<DropdownList>();
 
-            for (int i = 0; i < 500000; i++)
+            for (int i = 0; i < 50000; i++)
             {
                 list.Add(new DropdownList() { id = i, text = "Test Data-" + i });
             }
             ViewBag.Data = JsonConvert.SerializeObject(list);
+            ViewBag.DataAsList = list;
             return View();
         }
 

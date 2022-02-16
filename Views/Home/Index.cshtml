@@ -42,6 +42,9 @@
             alert(vdos);
         });
 
+        function mockDataForDataAsList() {
+            return  @Html.Raw(Json.Encode(@ViewBag.DataAsList));
+        }
 
         function mockData() {
             var datalos = '@ViewBag.Data'.replace(/\&quot;/g, '"');
@@ -51,7 +54,8 @@
 
         // init select 3
         $('#test').select3({
-            data: mockData(),
+            data: mockDataForDataAsList(),
+            //data: mockData(),
             placeholder: 'search',
             multiple: true,
             tags: true,
