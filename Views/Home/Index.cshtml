@@ -43,14 +43,14 @@
         });
 
         function mockDataForDataAsList() {
-            return  @Html.Raw(Json.Encode(@ViewBag.DataAsList));
+            return  @Html.Raw(@ViewBag.DataAsList);
         }
 
-        function mockData() {
+        @*function mockData() {
             var datalos = '@ViewBag.Data'.replace(/\&quot;/g, '"');
             console.log(datalos);
             return JSON.parse(datalos);
-        }
+        }*@
 
         // init select 3
         $('#test').select3({
