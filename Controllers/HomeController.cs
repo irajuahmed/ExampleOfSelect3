@@ -12,15 +12,20 @@ namespace ExampleOfSelect3.Controllers
         public ActionResult Index()
         {
             var list = new List<DropdownList>();
+            var setDataList = new List<DropdownList>
+            {
+                new DropdownList{id=1,text="Test Data-1"},
+                new DropdownList{id=2,text="Test Data-2"}
+            };
 
-            for (int i = 0; i < 2000000; i++)
+            for (int i = 0; i < 50000; i++)
             {
                 list.Add(new DropdownList() { id = i, text = "Test Data-" + i });
             }
-            //ViewBag.Data = JsonConvert.SerializeObject(list);
 
-            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue };
-            ViewBag.DataAsList = serializer.Serialize(list);
+            ViewBag.DataToSet = JsonConvert.SerializeObject(setDataList);
+            ViewBag.DataAsList = JsonConvert.SerializeObject(list);
+
             return View();
         }
 

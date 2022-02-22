@@ -9,7 +9,9 @@
     <div class="container">
         <div class="page-header">
             <h1>Select3 with pagination</h1>
-            <p>For improved performance with large data sets (500 000 items) within Few Seconds!</p>
+            <h3 id="h3ForMessage"></h3>
+            
+            <p>For improved performance with large data sets ( tested with 40 Lacs) within Few Seconds!</p>
         </div>
         <input id="test" style="width:100%;" placeholder="Type a number, scroll for more results" /><br />
         <button id="SetDefaultValue">Set Default Value</button><br />
@@ -23,27 +25,21 @@
     (function () {
 
         $("#SetDefaultValue").click(function () {
-            //$('#test').val([1, 2, 3]).change();
-            //$("#test").val(5).trigger('change');
-            //$("#test").val(["1", "2", "4"]).trigger("change"); //CA doesn't show as a default
-
-
-            $("#test").select3('data',
-                [
-                    { id: "1", text: "Test Data-1" },
-                    { id: "4", text: "Test Data-4" },
-                ]
-            );
-
-
+            var idList = "@ViewBag.DataToSet";
+            if (idList.length > 0) {
+                $("#test").select3('data',@Html.Raw(ViewBag.DataToSet));
+            }
         });
+
         $("#DisplayValue").click(function () {
             var vdos = $("#test").val();
             alert(vdos);
         });
 
         function mockDataForDataAsList() {
-            return  @Html.Raw(@ViewBag.DataAsList);
+            var data =@Html.Raw(ViewBag.DataAsList);
+            $("#h3ForMessage").text("Current data size is : "+ data.length);
+            return data;
         }
 
         @*function mockData() {
